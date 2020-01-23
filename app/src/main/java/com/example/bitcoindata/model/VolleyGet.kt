@@ -6,7 +6,7 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import kotlinx.android.synthetic.main.content_main.*
+import org.json.JSONObject
 
 
 const val TAG = "VolleyGet"
@@ -34,6 +34,27 @@ class VolleyGet(val context: Context) {
     }
 
     fun parseJSON(data: String){
-        Log.d(TAG, "$data")
+
+        val jsonObject = JSONObject(data)
+
+        val prices = jsonObject.getJSONObject("bpi")
+        val pricesKeys = prices.keys()
+
+
+        Log.d(TAG, "${prices}")
+
+        while (pricesKeys.hasNext()) {
+            val key: String = pricesKeys.next()
+////            if (jsonObject[key] is JSONObject) {
+////                Log.d(TAG, "${key}")
+////            }
+//
+//            val price = jsonObject.getDouble(key)
+            Log.d(TAG, "${key}")
+        }
+
+
+
+
     }
 }
