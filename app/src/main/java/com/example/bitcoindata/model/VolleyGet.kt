@@ -45,12 +45,9 @@ class VolleyGet(val context: Context) {
 
         while (pricesKeys.hasNext()) {
             val key: String = pricesKeys.next()
-////            if (jsonObject[key] is JSONObject) {
-////                Log.d(TAG, "${key}")
-////            }
-//
-//            val price = jsonObject.getDouble(key)
-            Log.d(TAG, "${key}")
+
+            val price = prices[key] as Double
+            Log.d(TAG, "${price}")
         }
 
 
