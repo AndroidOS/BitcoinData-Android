@@ -5,24 +5,29 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.lifecycle.ViewModelProviders
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.bitcoindata.R
 import com.example.bitcoindata.model.VolleyGet
+import com.example.bitcoindata.viewmodel.ListViewModel
 
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var viewModel: ListViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-
+        viewModel = ViewModelProviders.of(this)[ListViewModel::class.java]
+        viewModel.refresh()
 
         fab.setOnClickListener { view ->
             val vol = VolleyGet(this)
