@@ -13,9 +13,9 @@ import org.json.JSONObject
 const val TAG = "VolleyGet"
 class VolleyGet(val context: Context) {
 
-    var pricesParse = mutableListOf<Price>()
 
-    fun getPrices(): List<Price> {
+
+    fun getPrices() {
         //Instantiate the RequestQueue.
         val queue = Volley.newRequestQueue(context)
         val url = "https://api.coindesk.com/v1/bpi/historical/close.json"
@@ -26,7 +26,7 @@ class VolleyGet(val context: Context) {
             Request.Method.GET, url,
             Response.Listener<String> { response ->
                 // Display the first 500 characters of the response string.
-                parseJSON(response.toString())
+                //parseJSON(response.toString())
 
             },
             Response.ErrorListener { "That didn't work! "
@@ -39,12 +39,12 @@ class VolleyGet(val context: Context) {
         queue.add(stringRequest)
 
 
-        return pricesParse
+        //return pricesParse
     }
 
-    fun parseJSON(data: String){
+    fun parseJSON(data: String): List<Price>{
 
-
+        var pricesParse = mutableListOf<Price>()
 
         val jsonObject = JSONObject(data)
 
@@ -63,7 +63,7 @@ class VolleyGet(val context: Context) {
             pricesParse.add(newPrice)
         }
 
-
+        return pricesParse
     }
 
 

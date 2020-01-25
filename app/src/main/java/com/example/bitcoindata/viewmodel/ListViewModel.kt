@@ -10,6 +10,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.*
 import java.io.IOException
 
@@ -26,7 +29,7 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
 
 
     val loading = MutableLiveData<Boolean>()
-    val bitcoinPrices = MutableLiveData<Price>()
+    val bitcoinPrices = MutableLiveData<List<Price>>()
 
     fun refresh() {
         fetchFromRemote()
@@ -35,8 +38,9 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
 
     private fun fetchFromRemote() {
         loading.value = true
+        fetchJson()
 //        Log.d(TAG, "ListViewModel ${fetch.getPrices()}")
-        Log.d(TAG, "ListViewModel ${fetchJson()}")
+        //Log.d(TAG, "ListViewModel ${fetchJson()}")
 
 
 
@@ -60,9 +64,13 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
 
             override fun onResponse(call: Call?, response: Response?) {
                 val body = response?.body()?.string()
-                fetch.parseJSON(body.toString())
+                val list = fetch.parseJSON(body.toString())
 
-                //editText?.text = "${body.toString()}" \\ or whatever else you wanna set on the edit text
+               GlobalScope.launch(Dispatchers.Main) {
+                    bitcoinPrices.value = list
+                }
+
+               Log.d(TAG, " ${bitcoinPrices}")
             }
         })
 
