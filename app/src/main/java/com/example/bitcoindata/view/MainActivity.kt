@@ -5,6 +5,7 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.android.volley.Request
 import com.android.volley.Response
@@ -29,6 +30,8 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this)[ListViewModel::class.java]
         viewModel.refresh()
 
+        observeViewModel()
+
         fab.setOnClickListener { view ->
             val vol = VolleyGet(this)
             vol.getPrices()
@@ -49,5 +52,24 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    fun observeViewModel() {
+        (viewModel as ListViewModel).bitcoinPrices.observe(this, Observer { prices ->
+            prices?.let {
+//                txt_temperature.text = "Temperature: " + weather.main?.temp_max.toString()
+//                txt_conditions.text = weather.weather?.get(0)?.description.toString()
+
+                var text = ""
+                for (price in prices) {
+                    text += " " + price.date + " -> " + price.amount + "\n"
+                }
+
+                tv_dataView.text = text
+            }
+        })
+
+
+
     }
 }
