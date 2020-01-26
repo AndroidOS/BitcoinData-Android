@@ -1,5 +1,6 @@
 package com.example.bitcoindata.view
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -33,8 +34,11 @@ class MainActivity : AppCompatActivity() {
         observeViewModel()
 
         fab.setOnClickListener { view ->
-            val vol = VolleyGet(this)
-            vol.getPrices()
+            val intent = Intent(this, GraphActivity::class.java).apply {
+
+            }
+            startActivity(intent)
+
         }
     }
 
@@ -57,8 +61,7 @@ class MainActivity : AppCompatActivity() {
     fun observeViewModel() {
         (viewModel as ListViewModel).bitcoinPrices.observe(this, Observer { prices ->
             prices?.let {
-//                txt_temperature.text = "Temperature: " + weather.main?.temp_max.toString()
-//                txt_conditions.text = weather.weather?.get(0)?.description.toString()
+
 
                 var text = ""
                 for (price in prices) {

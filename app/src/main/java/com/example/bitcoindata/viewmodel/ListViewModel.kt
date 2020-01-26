@@ -24,10 +24,6 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
 
     private val fetch = VolleyGet(application)
 
-
-
-
-
     val loading = MutableLiveData<Boolean>()
     val bitcoinPrices = MutableLiveData<List<Price>>()
 
@@ -39,13 +35,6 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
     private fun fetchFromRemote() {
         loading.value = true
         fetchJson()
-//        Log.d(TAG, "ListViewModel ${fetch.getPrices()}")
-        //Log.d(TAG, "ListViewModel ${fetchJson()}")
-
-
-
-
-
 
     }
 

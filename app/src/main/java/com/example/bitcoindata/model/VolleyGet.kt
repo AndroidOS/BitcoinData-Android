@@ -14,34 +14,6 @@ const val TAG = "VolleyGet"
 class VolleyGet(val context: Context) {
 
 
-
-    fun getPrices() {
-        //Instantiate the RequestQueue.
-        val queue = Volley.newRequestQueue(context)
-        val url = "https://api.coindesk.com/v1/bpi/historical/close.json"
-
-
-        // Request a string response from the provided URL.
-        val stringRequest = StringRequest(
-            Request.Method.GET, url,
-            Response.Listener<String> { response ->
-                // Display the first 500 characters of the response string.
-                //parseJSON(response.toString())
-
-            },
-            Response.ErrorListener { "That didn't work! "
-            })
-
-
-
-
-        // Add the request to the RequestQueue.
-        queue.add(stringRequest)
-
-
-        //return pricesParse
-    }
-
     fun parseJSON(data: String): List<Price>{
 
         var pricesParse = mutableListOf<Price>()
@@ -52,13 +24,11 @@ class VolleyGet(val context: Context) {
         val pricesKeys = prices.keys()
 
 
-       // Log.d(TAG, "${prices}")
 
         while (pricesKeys.hasNext()) {
             val key: String = pricesKeys.next()
 
             val price = prices[key] as Double
-            Log.d(TAG, "${price}")
             val newPrice = Price(key, price)
             pricesParse.add(newPrice)
         }
