@@ -31,12 +31,25 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
         fetchFromRemote()
     }
 
+    fun getPrices(): List<Price>? {
+        var prices = bitcoinPrices.value
+//        for (p in bitcoinPrices.value!!){
+//            Log.d(TAG,"${p.amount}")
+//            prices.add(p)
+//        }
+
+        prices = bitcoinPrices.value
+        return prices
+
+    }
+
 
     private fun fetchFromRemote() {
         loading.value = true
         fetchJson()
-
     }
+
+
 
     fun fetchJson(){
 
@@ -59,7 +72,7 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
                     bitcoinPrices.value = list
                 }
 
-               Log.d(TAG, " ${bitcoinPrices}")
+               Log.d(TAG, " ${bitcoinPrices.value}")
             }
         })
 

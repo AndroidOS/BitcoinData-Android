@@ -14,6 +14,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.bitcoindata.R
 import com.example.bitcoindata.model.VolleyGet
+import com.example.bitcoindata.utils.graphData
 import com.example.bitcoindata.viewmodel.ListViewModel
 
 import kotlinx.android.synthetic.main.activity_main.*
@@ -65,6 +66,7 @@ class MainActivity : AppCompatActivity() {
 
                 var text = ""
                 for (price in prices) {
+                    graphData.add(price)
                     text += " " + price.date + " -> " + price.amount + "\n"
                 }
 
