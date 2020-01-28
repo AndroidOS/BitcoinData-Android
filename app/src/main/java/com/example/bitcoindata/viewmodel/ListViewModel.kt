@@ -82,7 +82,7 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
 
     }
 
-    private fun storePricesLocally(list: List<Price>) {
+    private fun storePricesLocally1(list: List<Price>) {
         launch {
             val dao = PriceDatabase(getApplication()).priceDao()
             dao.deleteAllPrices()
@@ -96,8 +96,24 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
         }
     }
 
-    private fun pricesRetrieved(dogList: List<Price>) {
-        bitcoinPrices.value = dogList
+    private fun storePricesLocally(list: List<Price>) {
+        launch {
+            val dao = PriceDatabase(getApplication()).priceDao()
+
+           
+            for (p in list){
+                val result = dao.getPrice1(p.date!!)
+                if (result.date != null){
+                    Log.d(TAG, result.date)
+                }
+            }
+
+
+        }
+    }
+
+    private fun pricesRetrieved(priceList: List<Price>) {
+        bitcoinPrices.value = priceList
         loading.value = false
     }
 

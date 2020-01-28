@@ -17,6 +17,9 @@ interface PriceDao {
         @Query("SELECT * FROM price WHERE uuid = :priceId")
         suspend fun getPrice(priceId: Int): Price
 
+        @Query("SELECT * FROM price WHERE date = :date")
+        suspend fun getPrice1(date: String): Price
+
         @Query("DELETE FROM price")
         suspend fun deleteAllPrices()
 }
