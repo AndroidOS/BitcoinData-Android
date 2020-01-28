@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.example.bitcoindata.model.Price
+import com.example.bitcoindata.model.PriceDatabase
 import com.example.bitcoindata.model.VolleyGet
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -23,6 +24,7 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
 
 
     private val fetch = VolleyGet(application)
+    private val disposable = CompositeDisposable()
 
     val loading = MutableLiveData<Boolean>()
     val bitcoinPrices = MutableLiveData<List<Price>>()
@@ -68,8 +70,10 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
                 val body = response?.body()?.string()
                 val list = fetch.parseJSON(body.toString())
 
+
                GlobalScope.launch(Dispatchers.Main) {
-                    bitcoinPrices.value = list
+                    //bitcoinPrices.value = list
+                   storePricesLocally(list)
                 }
 
                Log.d(TAG, " ${bitcoinPrices.value}")
@@ -78,9 +82,28 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
 
     }
 
+    private fun storePricesLocally(list: List<Price>) {
+        launch {
+            val dao = PriceDatabase(getApplication()).priceDao()
+            dao.deleteAllPrices()
+            val result = dao.insertAll(*list.toTypedArray())
+            var i = 0
+            while (i < list.size) {
+                list[i].uuid = result[i].toInt()
+                ++i
+            }
+            pricesRetrieved(list)
+        }
+    }
 
+    private fun pricesRetrieved(dogList: List<Price>) {
+        bitcoinPrices.value = dogList
+        loading.value = false
+    }
 
     override fun onCleared() {
         super.onCleared()
+        disposable.clear()
     }
+
 }
