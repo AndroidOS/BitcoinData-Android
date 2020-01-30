@@ -19,6 +19,7 @@ import com.example.bitcoindata.viewmodel.ListViewModel
 
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import androidx.appcompat.app.AlertDialog
 
 class MainActivity : AppCompatActivity() {
 
@@ -54,7 +55,9 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_settings -> {
+                showDialogue()
+                return true}
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -76,5 +79,23 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    }
+
+    private fun showDialogue() {
+        val builder = AlertDialog.Builder(this@MainActivity)
+
+        // Set the alert dialog title
+        builder.setTitle("About BitCoinData")
+
+        // Display a message on alert dialog
+        builder.setMessage("BitcoinData was developed by Manuel carvalho")
+
+        builder.setNeutralButton("Done") { _, _ ->
+
+        }
+
+
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
     }
 }

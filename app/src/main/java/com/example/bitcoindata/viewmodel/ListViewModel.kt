@@ -73,7 +73,7 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
 
                GlobalScope.launch(Dispatchers.Main) {
                     //bitcoinPrices.value = list
-                   storePricesLocally(list)
+                   storePricesLocally1(list)
                 }
 
                Log.d(TAG, " ${bitcoinPrices.value}")
@@ -100,7 +100,7 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
         launch {
             val dao = PriceDatabase(getApplication()).priceDao()
 
-           
+
             for (p in list){
                 val result = dao.getPrice1(p.date!!)
                 if (result.date != null){
